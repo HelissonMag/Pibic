@@ -1,6 +1,6 @@
 ﻿
        
-       public static int[][] criar_rede(int no , int amigo){
+     
            List<Integer> numeros;
             numeros = new ArrayList();
             for (int p = 0; p <no ; p++) { 
