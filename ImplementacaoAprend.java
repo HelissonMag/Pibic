@@ -36,7 +36,7 @@
                             if(aleatorio>i+1){
                                 while(v<amigo &&vaga==false){
                                      if(socialNet[aleatorio][v]==-1 ){
-                                         vaga=true;
+                                         vaga=true;;
                                      }
                                      v++;
                                  }
