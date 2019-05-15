@@ -13,13 +13,13 @@ import java.util.Scanner;
 
 public class ImplementacaoAprend2 {
  
-        public static int[] Aprender(int[][] rede_social ,int[][] matriz_solucoes,int [][]matriz_custo,int[] demanda, int capacidade, int rounds,int custo_car){
+        public static int[] Aprender(int[][] rede_social ,int[][] matriz_solucoes,int [][]matriz_custo,int[] demanda, int capacidade, int rounds,int custo_car,int numbNo,int numbAmigo,int numRep){
             int[] aprendeu=new int[1];
             Random num =new Random();
             int capTotal=0;
             int posic_solucao;
             int var;
-            int nub;
+            int nub,nub2;
             int [] aux;
             List<Integer> adicionados,rota;
             int cont=0;
@@ -32,19 +32,21 @@ public class ImplementacaoAprend2 {
                     if(posic_solucao!=-1){
                         rota.add(0);
                        
-                        nub=num.nextInt(matriz_solucoes[posic_solucao].length-2);
+                        nub=num.nextInt(matriz_solucoes[posic_solucao].length-11);
                         if(matriz_solucoes[posic_solucao][nub]!=0 && demanda[(matriz_solucoes[posic_solucao][nub])-1]+capTotal <=capacidade ) {
                             rota.add(matriz_solucoes[posic_solucao][nub]);
                             adicionados.add(matriz_solucoes[posic_solucao][nub]);
                             capTotal=demanda[matriz_solucoes[posic_solucao][nub]-1]+capTotal;
                         }
-                        if(matriz_solucoes[posic_solucao][nub+1]!=0 && demanda[(matriz_solucoes[posic_solucao][nub+1])-1]+capTotal <=capacidade ) {
-                            rota.add(matriz_solucoes[posic_solucao][nub+1]);
-                            adicionados.add(matriz_solucoes[posic_solucao][nub+1]);
-                            capTotal=demanda[matriz_solucoes[posic_solucao][nub+1]-1]+capTotal;
+                        for (int o = 1; o < 11; o++) {
+                            if(matriz_solucoes[posic_solucao][nub+o]!=0 && demanda[(matriz_solucoes[posic_solucao][nub+o])-1]+capTotal <=capacidade ) {
+                                rota.add(matriz_solucoes[posic_solucao][nub+o]);
+                                adicionados.add(matriz_solucoes[posic_solucao][nub+o]);
+                                capTotal=demanda[matriz_solucoes[posic_solucao][nub+o]-1]+capTotal;
+                            }
                         }
                          
-                        
+                   
                       //  System.out.println("Valor I:"+i);
                       //  System.out.println("Valor J:"+j);
                         for (int k = 1; k < matriz_solucoes[i].length; k++) {
@@ -117,8 +119,8 @@ public class ImplementacaoAprend2 {
             //mostraMatriz(matriz_solucoes);
             calcular_custo(matriz_solucoes,matriz_custo,custo_car);
               System.out.println("000000000000000000000000000000000000000000");
-              if(l==rounds-1 && cont<150){
-                  rede_social=criar_rede(100,4);
+              if(l==rounds-1 && cont<numRep){
+                  rede_social=criar_rede(numbNo,numbAmigo);
                   l=-1;
                   cont++;
               }
@@ -332,7 +334,7 @@ public class ImplementacaoAprend2 {
        
        public static void calcular_custo(int matriz_solucao[][],int matriz_custo[][],int custo_car){
            int custoTotal=0;    
-           int menor=999;
+           int menor=9999;
            int var=0;
            int media=0;
            for(int i=0;i<matriz_solucao.length;i++){
@@ -359,10 +361,63 @@ public class ImplementacaoAprend2 {
            System.out.println("Soluçao inicial com o menor curso é a Soluçao "+var+" com o valor "+ menor);
    
        }
-
-        static int[] demanda={3,2,3,4,1,2,5,2,5,4, 3, 4, 2, 2, 6, 5, 4, 2, 2, 1, 2, 4, 5, 2, 4, 3, 6, 2, 1, 2};
+        
+       public static int[][] dist_by_graph(int [][] graf){
+           int distX=0;
+           int distY=0;
+           double distancia=0;
+           int[][] matrix_dist = new int [graf.length][graf.length];
+           for (int i = 0; i < graf.length; i++) {
+               for (int j = i+1; j < graf.length; j++) {
+                    distX=graf[j][0]-graf[i][0];
+                    distY=graf[j][1]-graf[i][1];
+                    distancia=Math.sqrt((distY*distY)+(distX*distX));
+                    matrix_dist[i][j]=(int)Math.round(distancia);
+                    matrix_dist[j][i]=(int)Math.round(distancia);
+               }
+           }
+           
+           return matrix_dist;
+       }
+       static int [][] graf0 = {{82,76},
+                            {96,44},
+                            {50,5},
+                            {49,8},
+                            {13, 7},
+                            {29, 89},
+                            {58, 30},
+                            {84, 39},
+                            {14, 24},
+                            {2 ,39},
+                            {3 ,82},
+                            {5 ,10},
+                            {98 ,52},
+                            {84 ,25},
+                            {61 ,59},
+                            {1 ,65},
+                            {88 ,51},
+                            {91 ,2},
+                            {19 ,32},
+                            {93 ,3},
+                            {50 ,93},
+                            {98 ,14},
+                            {5 ,42},
+                            {42 ,9},
+                            {61 ,62},
+                            {9 ,97},
+                            {80 ,55},
+                            {57 ,69},
+                            {23 ,15},
+                            {20 ,70},
+                            {85 ,60},
+                            {98 ,5}
+              
+    };
+           static int[] demanda={19,21,6 ,19, 7 ,12 ,16, 6, 16, 8, 14, 21, 16 ,3 ,22 ,18 ,19 ,1 ,24 ,8 ,12 ,4 ,8 ,24 ,24  ,2 ,20 ,15 ,2 ,14,9 };
+//{3,2,3,4,1,2,5,2,5,4, 3, 4, 2, 2, 6, 5, 4, 2, 2, 1, 2, 4, 5, 2, 4, 3, 6, 2, 1, 2};
                            // 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
-        static int[][] custos  = {
+        //static int[][] custos  = dist_by_graph(graf0);
+           /*{
                                    {0,5,1,2,3,2,1,5,6,2,3,5,2,1,2,5,4,4,4,2,3,2,1,2,4,2,3,2,2,5,2},
                                    {5,0,3,4,1,2,3,1,2,2,2,3,1,4,2,5,2,3,3,3,2,1,1,2,2,1,2,3,3,2,1},
                                    {1,3,0,4,2,1,3,3,3,2,5,4,4,5,2,1,2,2,3,4,2,3,2,1,2,2,1,4,5,2,1},
@@ -395,7 +450,7 @@ public class ImplementacaoAprend2 {
                                    {5,2,2,1,1,1,1,1,1,1,1,2,4,4,6,4,1,2,1,2,9,4,3,6,7,2,3,2,9,0,1},
                                    {2,1,1,5,5,5,5,5,5,5,5,2,4,4,5,1,2,1,1,2,1,6,6,7,8,2,4,1,2,1,0},
                      
-                                   };
+                                   };*/
     public static void main(String[] args) {
       
      Scanner e =new Scanner(System.in);
@@ -411,21 +466,21 @@ public class ImplementacaoAprend2 {
     int[][] mat;
      int[] v;
      int[][]betterMat;
-   
-    mat=criar_rede(100,4);
-    betterMat=Algoritmo(custos);
+   int[][] custos  = dist_by_graph(graf0);
+
+   mat=criar_rede(500,4);
     System.out.println("\t \t \tREDE SOCIAL.");
         mostraMatriz(mat);
         System.out.println("\t");
-        mat2=gerar_solucoes(100,30,demanda,12);
+        mat2=gerar_solucoes(500,31,demanda,100);
          
         System.out.println("\t \t \t SOLUÇOES INICIAIS.");
         mostraMatriz(mat2);
       //  System.out.println("\t \t \tMATRIZ DE CUSTO DEPOIS DO ALGORITMO.");
        // mostraMatriz(betterMat);
-        calcular_custo(mat2,betterMat,4);
+        calcular_custo(mat2,custos,4);
           System.out.println("**********************************");
-      v=Aprender(mat,mat2,betterMat,demanda,12,5,4);
+      v=Aprender(mat,mat2,custos,demanda,100,15,0,500,4,200);
       
        System.out.println("R E S U L T A D O :");
 
@@ -437,7 +492,7 @@ public class ImplementacaoAprend2 {
             }
         }
         
-        System.out.println("Valor da aprendizagem achada:"+calcular_custoNo(v,betterMat));  
+        System.out.println("Valor da aprendizagem achada:"+calcular_custoNo(v,custos));  
   /*   
  int[][] mat;
     mat=Algoritmo(custos);
