@@ -22,7 +22,7 @@ public class ProjetoPibic {
 
 
         static List<Integer> listaPiores;
-        public static int[] Aprender(int[][] rede_social ,int[][] matriz_solucoes,int [][]matriz_custo,int[] demanda, int capacidade, int rounds,int custo_car,int numbNo,int numbAmigo,int numRep,int tolerancia,double alfa,double beta,int tamAprendi){
+        public static int[] Aprender(int[][] rede_social ,int[][] matriz_solucoes,int [][]matriz_custo,int[] demanda, int capacidade, int rounds,int custo_car,int numbNo,int numbAmigo,int numRep,int tolerancia,double alfa,double beta){
             int[] aprendeu=new int[1];
             Random num =new Random();
             int capTotal=0;
@@ -35,7 +35,7 @@ public class ProjetoPibic {
             int cont=0;
             rota = new ArrayList();
           for (int l = 0; l < rounds; l++) {
-              ale=tamAprendi;
+              ale=7;
              //ale=(int)Math.round(8)+3;
             for (int i = 0; i < rede_social.length; i++) {
                 for (int j = 0; j < rede_social[i].length; j++) {
@@ -148,12 +148,6 @@ public class ProjetoPibic {
                   rede_social=criar_rede(numbNo,numbAmigo);
                   l=-1;
                   cont++;
-                  if(alfa>0.7 && cont>100){
-                    alfa=alfa-0.008;
-                    beta=beta+0.008;
-                    System.out.println("cont+ "+cont);
-                    System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"+alfa+"    "+beta);
-                  }
               }
          }
           mostraMatriz(matriz_solucoes);
@@ -477,9 +471,9 @@ public class ProjetoPibic {
         int [] v;
         int[][]betterMat;
         int linhas;
-        String arqName="53";
-       BufferedReader br = new BufferedReader (new FileReader ("dist"+arqName+".txt"));
-        BufferedReader cap = new BufferedReader (new FileReader ("cap"+arqName+".txt"));
+        
+       BufferedReader br = new BufferedReader (new FileReader ("dist3.txt"));
+        BufferedReader cap = new BufferedReader (new FileReader ("cap3.txt"));
         linhas = 0;
         while (br.readLine()!= null) 
             linhas++;
@@ -487,7 +481,7 @@ public class ProjetoPibic {
         int demanda[]=new int [linhas-1];
         int capacidade=0;
         int i=0;
-        BufferedReader sr = new BufferedReader (new FileReader ("dist"+arqName+".txt"));
+        BufferedReader sr = new BufferedReader (new FileReader ("dist3.txt"));
         while(i<linhas){
             String linhaAtual = sr.readLine();
             String palavras[] = linhaAtual.split(" ");
@@ -520,8 +514,8 @@ public class ProjetoPibic {
         mostraMatriz(mat2);
         calcular_custo(mat2,custos,0,false);
         System.out.println("**********************************");
-        v=Aprender(mat,mat2,custos,demanda,capacidade,20,0,numeroSolc,numeroAmigo,200,20,1,0,21);
-  /*  
+        v=Aprender(mat,mat2,custos,demanda,capacidade,20,0,numeroSolc,numeroAmigo,150,25,1,0);
+  /*   
  int[][] mat;
     mat=Algoritmo(custos);
         System.out.println("*********************************");
